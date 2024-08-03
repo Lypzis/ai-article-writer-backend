@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const ArticleSchma = new mongoose.Schema({
+const ArticleSchma = new Schema({
   title: { type: String, required: true },
   body: { type: String, required: true },
   description: { type: String, required: true },
@@ -9,4 +9,4 @@ const ArticleSchma = new mongoose.Schema({
   link: { type: String, default: null },
 });
 
-module.exports = mongoose.model('Article', ArticleSchma);
+export default model('Article', ArticleSchma);

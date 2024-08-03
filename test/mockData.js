@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   'Title: Mastering JavaScript: A Deep Dive into the World of Web Development',
   '',
   'Introduction:',

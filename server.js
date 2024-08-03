@@ -1,12 +1,12 @@
-const express = require('express');
-const helmet = require('helmet');
-const cron = require('node-cron');
+import express, { json } from 'express';
+import helmet from 'helmet';
+import { schedule } from 'node-cron';
 require('dotenv').config();
 
-require('./config/db');
-const { generateArticleCore } = require('./controllers/articleController');
+import './config/db';
+import { generateArticleCore } from './controllers/articleController';
 
-const articleRoutes = require('./routes/articleRoutes');
+import articleRoutes from './routes/articleRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet());
 
 // Middleware for parsing JSON bodies
-app.use(express.json());
+app.use(json());
 
 // Define routes
 app.use('/api/articles', articleRoutes);
@@ -25,19 +25,27 @@ app.use((req, res, next) => {
   res.status(404).send('The requested resource was not found.');
 });
 
-// Schedule the task to run every 5 minutes
-cron.schedule('0 0 */2 * *', async () => {
-  console.log('Running scheduled task: generateArticle');
+// Schedule the task to run every 4 hours
+schedule(
+  '0 */4 * * *',
+  async () => {
+    console.log('Running scheduled task: generateArticle');
 
-  try {
-    await generateArticleCore(); // Assuming generateArticle doesn't need req, res in cron context
-    console.log('Article generated successfully');
-  } catch (error) {
-    console.error('Error in scheduled task:', error);
+    try {
+      const article = await generateArticleCore();
+      console.log('Article generated successfully:', article.title);
+    } catch (error) {
+      console.error('Error in scheduled task:', error.message);
+    }
+  },
+  {
+    timezone: 'America/New_York', // Eastern Time Zone (ET)
   }
-});
+);
 
-console.log('Cron job scheduled: Generate article every 2 days');
+console.log(
+  'Cron job scheduled: Generate article every 4 hours in America/New_York timezone'
+);
 
 // Start the server
 app.listen(PORT, () => {

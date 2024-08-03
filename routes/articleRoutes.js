@@ -1,8 +1,8 @@
-const express = require('express');
-const { getPaginatedArticles } = require('../controllers/articleController');
+import { Router } from 'express';
+import { getPaginatedArticles } from '../controllers/articleController';
 
-const router = express.Router();
+const router = Router();
 
 router.get('/', getPaginatedArticles);
 
-module.exports = router;
+export default router;

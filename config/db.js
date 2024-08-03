@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import { connect, connection } from 'mongoose';
 
 // Get the database URI from environment variables
 const dbURI = process.env.MONGO_URI;
@@ -6,7 +6,7 @@ const dbURI = process.env.MONGO_URI;
 // Function to connect to the database
 const connectDB = async () => {
   try {
-    await mongoose.connect(dbURI);
+    await connect(dbURI);
     console.log('MongoDB connected successfully');
   } catch (err) {
     console.error('MongoDB connection error:', err.message);
@@ -15,19 +15,19 @@ const connectDB = async () => {
 };
 
 // Handle Mongoose connection events
-mongoose.connection.on('connected', () => {
+connection.on('connected', () => {
   console.log('Mongoose connected to DB');
 });
 
-mongoose.connection.on('error', err => {
+connection.on('error', err => {
   console.error('Mongoose connection error:', err.message);
 });
 
-mongoose.connection.on('disconnected', () => {
+connection.on('disconnected', () => {
   console.log('Mongoose disconnected from DB');
 });
 
 // Call connectDB function to establish connection
 connectDB();
 
-module.exports = mongoose.connection;
+export default connection;

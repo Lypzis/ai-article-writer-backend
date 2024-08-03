@@ -1,6 +1,6 @@
-const axios = require('axios');
-const Article = require('../models/articleModel');
-const testData = require('../test/mockData');
+import { post } from 'axios';
+import Article from '../models/articleModel';
+import testData from '../test/mockData';
 
 // Get articles
 const getPaginatedArticles = async (req, res) => {
@@ -47,7 +47,7 @@ const generateArticleCore = async () => {
   if (useMockData) {
     content = testData;
   } else {
-    const response = await axios.post(
+    const response = await post(
       process.env.OPEN_AI_ENGINE_URL,
       {
         model: process.env.OPEN_AI_MODEL,
@@ -91,4 +91,4 @@ const generateArticleCore = async () => {
   return article;
 };
 
-module.exports = { getPaginatedArticles, generateArticleCore };
+export default { getPaginatedArticles, generateArticleCore };
