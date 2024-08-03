@@ -1,12 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express, { json } from 'express';
 import helmet from 'helmet';
 import { schedule } from 'node-cron';
-require('dotenv').config();
 
-import './config/db';
-import { generateArticleCore } from './controllers/articleController';
-
-import articleRoutes from './routes/articleRoutes';
+import './config/db.js';
+import { generateArticleCore } from './controllers/articleController.js';
+import articleRoutes from './routes/articleRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;

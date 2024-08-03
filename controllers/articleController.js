@@ -1,9 +1,11 @@
-import { post } from 'axios';
-import Article from '../models/articleModel';
-import testData from '../test/mockData';
+import axios from 'axios';
+import Article from '../models/articleModel.js';
+import testData from '../test/mockData.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Get articles
-const getPaginatedArticles = async (req, res) => {
+export const getPaginatedArticles = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Default to page 1
     const limit = parseInt(req.query.limit) || 10; // Default to 10 articles per page
@@ -39,7 +41,7 @@ const getPaginatedArticles = async (req, res) => {
 };
 
 // Core function to generate an article
-const generateArticleCore = async () => {
+export const generateArticleCore = async () => {
   const useMockData = process.env.USE_MOCK_DATA === 'true';
 
   let content;
@@ -47,7 +49,7 @@ const generateArticleCore = async () => {
   if (useMockData) {
     content = testData;
   } else {
-    const response = await post(
+    const response = await axios.post(
       process.env.OPEN_AI_ENGINE_URL,
       {
         model: process.env.OPEN_AI_MODEL,
@@ -90,5 +92,3 @@ const generateArticleCore = async () => {
 
   return article;
 };
-
-export default { getPaginatedArticles, generateArticleCore };

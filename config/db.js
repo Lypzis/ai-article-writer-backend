@@ -1,10 +1,14 @@
-import { connect, connection } from 'mongoose';
+import pkg from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const { connect, connection } = pkg;
 
 // Get the database URI from environment variables
 const dbURI = process.env.MONGO_URI;
 
 // Function to connect to the database
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     await connect(dbURI);
     console.log('MongoDB connected successfully');
@@ -29,5 +33,3 @@ connection.on('disconnected', () => {
 
 // Call connectDB function to establish connection
 connectDB();
-
-export default connection;
