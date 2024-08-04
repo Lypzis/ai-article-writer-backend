@@ -9,7 +9,7 @@ import { generateArticleCore } from './controllers/articleController.js';
 import articleRoutes from './routes/articleRoutes.js';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Security middleware
 app.use(helmet());
@@ -25,9 +25,9 @@ app.use((req, res, next) => {
   res.status(404).send('The requested resource was not found.');
 });
 
-// Schedule the task to run every 4 hours
-schedule(
-  '0 */4 * * *',
+/// Schedule the task to run every 2 days at midnight
+const cron = schedule(
+  '0 0 */2 * *',
   async () => {
     console.log('Running scheduled task: generateArticle');
 
@@ -43,11 +43,13 @@ schedule(
   }
 );
 
+cron.start();
+
 console.log(
   'Cron job scheduled: Generate article every 4 hours in America/New_York timezone'
 );
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
