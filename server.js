@@ -45,10 +45,6 @@ const cron = schedule(
 
 cron.start();
 
-console.log(
-  'Cron job scheduled: Generate article every 4 hours in America/New_York timezone'
-);
-
 // Start the server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`);
