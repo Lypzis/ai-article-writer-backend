@@ -61,7 +61,7 @@ export const generateArticleCore = async () => {
           {
             role: 'user',
             content: `Generate a unique and detailed programming article on JavaScript.
-              The article should include an introduction, main content with explanations and examples, a conclusion, and some tags.`,
+              The article should include a title, an introduction, main content with explanations and examples, a conclusion, and some tags.`,
           },
         ],
         max_tokens: 1500,
